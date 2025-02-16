@@ -7,7 +7,7 @@ void cleanup_matrix(char **&matrix, int R);
 //Chech the str if it is integer (not real number because real numbers have dot (.))
 bool isInteger(const string& str) {
     if (str.empty()) return false;
-    int i = 0;
+    size_t i = 0;
 
     //Check for a negative sign
     if (str[0] == '-' && str.size() > 1) i = 1;
@@ -54,7 +54,7 @@ int main() {
             //As we read the R and C, fill the matrix, find the clauses and return possible (or not) solution
             else {
                 //Fill the matrix. we have C columns =  word.size() (symbols) * R rows 
-                for (int j = 0; j < word.size(); ++j) matrix[index_i][j] = word[j];
+                for (size_t j = 0; j < word.size(); ++j) matrix[index_i][j] = word[j];
                 
                 index_i++;
                 //As we have create the matrix, find the clauses and return if it is possible to find solution

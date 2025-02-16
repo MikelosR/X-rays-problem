@@ -5,7 +5,7 @@ using namespace std;
 //Store every dot (.) where you find in the route, in the set balls
 //In the new_index_j and new_index_i store the coordinates of the symbol that we have collision
 //We have Collision when the matrix[i][j] is '-' or '|' and also the matrix[new_index_i][new_index_j] is '-' or '|'
-char find_first_char_left(char **matrix, int R, int C, int i, int j, bool& collision, int& new_index_i, 
+void find_first_char_left(char **matrix, int R, int C, int i, int j, bool& collision, int& new_index_i, 
                             int& new_index_j, set<pair<int, int>>& balls){
     j--;
     //x means that the lazer went out of array
@@ -23,23 +23,22 @@ char find_first_char_left(char **matrix, int R, int C, int i, int j, bool& colli
                 new_index_i = i;
                 new_index_j = j;
                 collision = true;
-                return symbol;
+                return;
             }
             if(symbol == '\\') {
-                
-                symbol = find_first_char_up(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
+                find_first_char_up(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
             }
             else if(symbol == '/') {
-                symbol = find_first_char_down(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
+                find_first_char_down(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
             }
-            return symbol;
+            return;
         }
     }
-    return symbol;
+    return;
 }
 
 //Εxact what it does the find_first_char_left but from the right side
-char find_first_char_right(char **matrix, int R, int C, int i, int j, bool& collision, 
+void find_first_char_right(char **matrix, int R, int C, int i, int j, bool& collision, 
             int& new_index_i, int& new_index_j, set<pair<int, int>>& balls){
     j++;
     //x means that the lazer went out of array
@@ -56,22 +55,22 @@ char find_first_char_right(char **matrix, int R, int C, int i, int j, bool& coll
                 new_index_i = i;
                 new_index_j = j;
                 collision = true;
-                return symbol;
+                return;
             } 
             if(symbol == '\\') {
-                symbol = find_first_char_down(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
+                find_first_char_down(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
             }
             else if(symbol == '/') {
-                symbol = find_first_char_up(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
+                find_first_char_up(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
             }
-            return symbol;
+            return;
         }
     }
-    return symbol;
+    return;
 }
 
 //Εxact what it does the find_first_char_left but from the upper side
-char find_first_char_up(char **matrix, int R, int C, int i, int j, bool& collision, 
+void find_first_char_up(char **matrix, int R, int C, int i, int j, bool& collision, 
                     int& new_index_i, int& new_index_j, set<pair<int, int>>& balls){
     i--;
     //x means that the lazer went out of array
@@ -88,23 +87,23 @@ char find_first_char_up(char **matrix, int R, int C, int i, int j, bool& collisi
                 new_index_i = i;
                 new_index_j = j;
                 collision = true;
-                return symbol;
+                return;
             } 
             if(symbol == '\\') {
-                symbol = find_first_char_left(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
+                find_first_char_left(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
             }
             else if(symbol == '/') {
-                symbol = find_first_char_right(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
+                find_first_char_right(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
             }
-            return symbol;
+            return;
             
         }
     }
-    return symbol;
+    return;
 }
 
 //Εxact what it does the find_first_char_left but from the bottom side
-char find_first_char_down(char **matrix, int R, int C, int i, int j, bool& collision, 
+void find_first_char_down(char **matrix, int R, int C, int i, int j, bool& collision, 
             int& new_index_i, int& new_index_j, set<pair<int, int>>& balls){
     i++;
     //x means that the lazer went out of array
@@ -121,18 +120,18 @@ char find_first_char_down(char **matrix, int R, int C, int i, int j, bool& colli
                 new_index_i = i;
                 new_index_j = j;
                 collision = true;
-                return symbol;
+                return;
             }  
             if(symbol == '\\') {
-                symbol = find_first_char_right(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
+                find_first_char_right(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
             }
             else if(symbol == '/') {
-                symbol = find_first_char_left(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
+                find_first_char_left(matrix, R, C, i, j, collision, new_index_i, new_index_j, balls);
             }
-            return symbol;
+            return;
         }
     }
-    return symbol;
+    return;
 }
 
 //If we change the direction o f guns, give me the dots where i will hit
@@ -140,12 +139,12 @@ void revised_pistol_hit_balls_func(char **matrix, int R, int C, map<pair<int, in
     bool collision = false;
     set<pair<int, int>> balls;
     int new_index_i, new_index_j;
-    char temp_sybol_a, temp_sybol_b;
+    //char temp_sybol_a, temp_sybol_b;
     for (int i = 0; i < R; i++){
         for (int j = 0; j < C; j++) {
             if(matrix[i][j] == '-'){
-                temp_sybol_a = find_first_char_up(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);                
-                temp_sybol_b = find_first_char_down(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_up(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);                
+                find_first_char_down(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 //If we have collision, dont give me back the set of dots
                 if(!collision) revised_pistol_hit_balls[{i,j}].insert(balls.begin(), balls.end());
                 else collision = false;
@@ -153,8 +152,8 @@ void revised_pistol_hit_balls_func(char **matrix, int R, int C, map<pair<int, in
                 balls.clear();
             }
             else if(matrix[i][j] == '|'){
-                temp_sybol_a = find_first_char_left(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
-                temp_sybol_b = find_first_char_right(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_left(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_right(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 if(!collision) revised_pistol_hit_balls[{i,j}].insert(balls.begin(), balls.end());
                 else collision = false;
                 balls.clear();

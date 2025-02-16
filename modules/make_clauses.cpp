@@ -7,7 +7,7 @@ using namespace std;
 bool make_clauses_solver(char **matrix, int R, int C){
     cout<<"Array size: "<<R<<"*"<<C<<endl;
     bool collision = false;
-    char temp_sybol_a, temp_sybol_b;
+    //char temp_sybol_a, temp_sybol_b;
     int new_index_i = -1, new_index_j = -1;
     set<pair<int, int>> balls;
     map<pair<int, int>, set<pair<int, int>>> pistol_hit_balls;
@@ -20,7 +20,7 @@ bool make_clauses_solver(char **matrix, int R, int C){
         for (int j = 0; j < C; j++) {
             if(matrix[i][j] == '|'){
                 collision = false;
-                temp_sybol_a = find_first_char_up(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);                
+                find_first_char_up(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);                
                 //Change direction in '|'
                 if(collision) {
                     matrix[i][j] = '-';
@@ -28,7 +28,7 @@ bool make_clauses_solver(char **matrix, int R, int C){
                     
                 }
                 if(!collision){
-                    temp_sybol_b = find_first_char_down(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                    find_first_char_down(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                     //Change direction in '|'
                     if(collision) {
                         matrix[i][j] = '-';
@@ -38,7 +38,7 @@ bool make_clauses_solver(char **matrix, int R, int C){
             }
             else if(matrix[i][j] == '-'){
                 collision = false;
-                temp_sybol_a = find_first_char_left(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_left(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 //Change direction in '-'
                 if(collision) {
                     matrix[i][j] = '|';
@@ -46,7 +46,7 @@ bool make_clauses_solver(char **matrix, int R, int C){
                 }
                 if(!collision){
                     //Change direction in '-'
-                    temp_sybol_b = find_first_char_right(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                    find_first_char_right(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                     if(collision) {
                         matrix[i][j] = '|';
                         no_flip.insert({i,j});
@@ -62,12 +62,12 @@ bool make_clauses_solver(char **matrix, int R, int C){
         for (int j = 0; j < C; j++) {
             if(matrix[i][j] == '-'){
                 collision = false;
-                temp_sybol_a = find_first_char_up(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_up(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 if(collision) {
                     no_flip.insert({i,j});
                     collision = false;
                 }
-                temp_sybol_b = find_first_char_down(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_down(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 if(collision) {
                     no_flip.insert({i,j});
                     collision = false;
@@ -76,12 +76,12 @@ bool make_clauses_solver(char **matrix, int R, int C){
             }
             else if(matrix[i][j] == '|'){
                 collision = false;
-                temp_sybol_a = find_first_char_left(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_left(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 if(collision) {
                     no_flip.insert({i,j});
                     collision = false;
                 }
-                temp_sybol_b = find_first_char_right(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_right(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 if(collision) {
                     no_flip.insert({i,j});
                     collision = false;
@@ -100,12 +100,12 @@ bool make_clauses_solver(char **matrix, int R, int C){
         if(collision) break;
         for (int j = 0; j < C; j++) {
             if(matrix[i][j] == '|'){
-                temp_sybol_a = find_first_char_up(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_up(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 pistol_hit_balls[{i,j}].insert(balls.begin(), balls.end());
                 if(collision) {
                     break;
                 }
-                temp_sybol_b = find_first_char_down(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_down(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 if(collision) {
                     break;
                 }
@@ -113,12 +113,12 @@ bool make_clauses_solver(char **matrix, int R, int C){
                 balls.clear();
             }
             else if(matrix[i][j] == '-'){
-                temp_sybol_a = find_first_char_left(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_left(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 pistol_hit_balls[{i,j}].insert(balls.begin(), balls.end());
                 if(collision) {
                     break;
                 }
-                temp_sybol_b = find_first_char_right(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_right(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 if(collision) {
                     break;
                 }
@@ -144,7 +144,7 @@ bool make_clauses_solver(char **matrix, int R, int C){
             }
         }
     }
-    char up, down, left, right;
+    //char up, down, left, right;
     //Find the pistols that can hit specific dots, 
     //use vector to find dots that can be hited 2 times by the same weapon (with flip gun '-' => '|')
     map<pair<int, int>, vector<pair<int, int>>> balls_find_pistols;
@@ -152,16 +152,16 @@ bool make_clauses_solver(char **matrix, int R, int C){
         for (int j = 0; j < C; j++) {
             if(matrix[i][j] == '.'){
                 collision = false;
-                up = find_first_char_up(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_up(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 if(collision) balls_find_pistols[{i,j}].push_back({new_index_i, new_index_j});
                 collision = false;
-                down = find_first_char_down(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_down(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 if(collision) balls_find_pistols[{i,j}].push_back({new_index_i, new_index_j});
                 collision = false;
-                left = find_first_char_left(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_left(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 if(collision) balls_find_pistols[{i,j}].push_back({new_index_i, new_index_j});
                 collision = false;
-                right = find_first_char_right(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
+                find_first_char_right(matrix,R,C,i,j, collision, new_index_i, new_index_j, balls);
                 if(collision) balls_find_pistols[{i,j}].push_back({new_index_i, new_index_j});
                 collision = false;
                 balls.clear();
@@ -231,7 +231,7 @@ bool make_clauses_solver(char **matrix, int R, int C){
                     auto it = clauses.find(entry.first);
                     vector<tuple<int, int, bool>>& original_vector = it->second;
                     int index_to_remove = -1;
-                    for (int i = 0; i < original_vector.size(); ++i) {
+                    for (size_t i = 0; i < original_vector.size(); ++i) {
                         if (original_vector[i] == tpls) {
                             index_to_remove = i;
                             break; //Exit the loop once the tuple is found
